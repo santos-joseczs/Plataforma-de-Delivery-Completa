@@ -1,0 +1,1506 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeliveryExpress - Plataforma Completa de Delivery</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #ff6b35;
+            --secondary-color: #1a1a2e;
+            --accent-color: #00a8cc;
+            --success-color: #4caf50;
+            --warning-color: #ff9800;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --gray-color: #6c757d;
+            --border-radius: 10px;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .logo i {
+            color: var(--primary-color);
+            margin-right: 10px;
+        }
+        
+        .logo span {
+            color: var(--primary-color);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 25px;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+        }
+        
+        nav ul li a:hover {
+            color: var(--primary-color);
+        }
+        
+        nav ul li a i {
+            margin-right: 8px;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 8px 15px;
+            border-radius: 30px;
+        }
+        
+        .user-info i {
+            margin-right: 8px;
+            color: var(--primary-color);
+        }
+        
+        .user-balance {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-left: 10px;
+        }
+        
+        .main-content {
+            display: flex;
+            min-height: calc(100vh - 140px);
+        }
+        
+        .sidebar {
+            width: 250px;
+            background-color: white;
+            padding: 25px 15px;
+            border-right: 1px solid #eaeaea;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .menu-categories {
+            margin-bottom: 30px;
+        }
+        
+        .menu-categories h3 {
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-color);
+        }
+        
+        .category-list {
+            list-style: none;
+        }
+        
+        .category-list li {
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .category-list li:hover, .category-list li.active {
+            background-color: rgba(255, 107, 53, 0.1);
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+        
+        .category-list li .item-count {
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 0.8rem;
+            padding: 2px 8px;
+            border-radius: 20px;
+        }
+        
+        .loyalty-section {
+            background: linear-gradient(135deg, var(--secondary-color), #16213e);
+            color: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 25px;
+        }
+        
+        .loyalty-section h4 {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .loyalty-section h4 i {
+            margin-right: 10px;
+            color: var(--primary-color);
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: var(--primary-color);
+            width: 65%;
+            border-radius: 4px;
+        }
+        
+        .cashback-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+        
+        .cashback-amount {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        .content-area {
+            flex: 1;
+            padding: 25px;
+            background-color: #f9fafc;
+        }
+        
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .section-title h2 {
+            color: var(--secondary-color);
+            font-size: 1.8rem;
+        }
+        
+        .section-title i {
+            color: var(--primary-color);
+            margin-right: 10px;
+        }
+        
+        .menu-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .menu-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .menu-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .menu-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+        
+        .menu-card-content {
+            padding: 20px;
+        }
+        
+        .menu-card h3 {
+            margin-bottom: 10px;
+            color: var(--secondary-color);
+        }
+        
+        .menu-card p {
+            color: var(--gray-color);
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+            height: 60px;
+            overflow: hidden;
+        }
+        
+        .menu-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+        
+        .price {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        .add-to-cart {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+        }
+        
+        .add-to-cart:hover {
+            background-color: #e05a2b;
+        }
+        
+        .add-to-cart i {
+            margin-right: 8px;
+        }
+        
+        .cart-sidebar {
+            width: 350px;
+            background-color: white;
+            padding: 25px;
+            border-left: 1px solid #eaeaea;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .cart-header h3 {
+            color: var(--secondary-color);
+        }
+        
+        .cart-items {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+        
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+        
+        .cart-item-info h4 {
+            margin-bottom: 5px;
+            color: var(--secondary-color);
+        }
+        
+        .cart-item-price {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .cart-item-controls {
+            display: flex;
+            align-items: center;
+        }
+        
+        .cart-item-controls button {
+            background-color: #f0f0f0;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .cart-item-quantity {
+            margin: 0 12px;
+            font-weight: 600;
+        }
+        
+        .cart-summary {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .summary-total {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            border-top: 2px solid #eee;
+            padding-top: 15px;
+            margin-top: 15px;
+        }
+        
+        .checkout-btn {
+            width: 100%;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .checkout-btn:hover {
+            background-color: #0088aa;
+        }
+        
+        .checkout-btn i {
+            margin-right: 10px;
+        }
+        
+        .tab-container {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+        
+        .tab-header {
+            display: flex;
+            background-color: var(--secondary-color);
+        }
+        
+        .tab-btn {
+            flex: 1;
+            padding: 18px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .tab-btn i {
+            margin-right: 10px;
+        }
+        
+        .tab-btn.active {
+            background-color: var(--primary-color);
+        }
+        
+        .tab-content {
+            padding: 30px;
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .waiter-call {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #e8f4fc;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+        }
+        
+        .waiter-call button {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+        
+        .waiter-call button i {
+            margin-right: 10px;
+        }
+        
+        .reports-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .report-card {
+            background-color: white;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+        
+        .report-card h4 {
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+        }
+        
+        .report-card h4 i {
+            margin-right: 10px;
+            color: var(--primary-color);
+        }
+        
+        .report-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .report-trend {
+            display: flex;
+            align-items: center;
+            color: var(--success-color);
+            font-weight: 500;
+        }
+        
+        .report-trend.down {
+            color: #f44336;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background-color: white;
+            width: 90%;
+            max-width: 500px;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .modal-header {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-header h3 {
+            color: white;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        .modal-body {
+            padding: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--secondary-color);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+        }
+        
+        .modal-footer {
+            padding: 20px;
+            background-color: #f9f9f9;
+            display: flex;
+            justify-content: flex-end;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            margin-top: 40px;
+        }
+        
+        .footer-info {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+        
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 20px;
+        }
+        
+        .footer-section h4 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        @media (max-width: 1200px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .sidebar, .cart-sidebar {
+                width: 100%;
+                border: none;
+                margin-bottom: 20px;
+            }
+            
+            .cart-sidebar {
+                order: 3;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                margin-top: 15px;
+            }
+            
+            nav ul li {
+                margin: 5px 15px 5px 0;
+            }
+            
+            .menu-items {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            .tab-header {
+                flex-direction: column;
+            }
+            
+            .reports-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <i class="fas fa-utensils"></i>
+                Delivery<span>Express</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#"><i class="fas fa-home"></i> Início</a></li>
+                    <li><a href="#"><i class="fas fa-receipt"></i> Pedidos</a></li>
+                    <li><a href="#"><i class="fas fa-chart-bar"></i> Relatórios</a></li>
+                    <li><a href="#"><i class="fas fa-cog"></i> Configurações</a></li>
+                    <li><a href="#"><i class="fas fa-question-circle"></i> Ajuda</a></li>
+                </ul>
+            </nav>
+            <div class="user-info">
+                <i class="fas fa-user-circle"></i>
+                <span>Olá, João Silva</span>
+                <div class="user-balance">
+                    <i class="fas fa-coins"></i> R$ 15,50
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <div class="container main-content">
+        <!-- Sidebar with categories and loyalty info -->
+        <aside class="sidebar">
+            <div class="menu-categories">
+                <h3><i class="fas fa-list"></i> Categorias</h3>
+                <ul class="category-list">
+                    <li class="active">Todos os Itens <span class="item-count">24</span></li>
+                    <li>Pizzas <span class="item-count">8</span></li>
+                    <li>Hambúrgueres <span class="item-count">6</span></li>
+                    <li>Bebidas <span class="item-count">5</span></li>
+                    <li>Sobremesas <span class="item-count">5</span></li>
+                    <li>Promoções <span class="item-count">3</span></li>
+                </ul>
+            </div>
+            
+            <div class="loyalty-section">
+                <h4><i class="fas fa-crown"></i> Seu Programa de Fidelidade</h4>
+                <p>Você tem 320 pontos. Faltam 180 pontos para o próximo nível!</p>
+                <div class="progress-bar">
+                    <div class="progress"></div>
+                </div>
+                <div class="cashback-info">
+                    <div>
+                        <div>Cashback Disponível</div>
+                        <div class="cashback-amount">R$ 15,50</div>
+                    </div>
+                    <button class="add-to-cart" style="background-color: var(--accent-color); padding: 8px 15px;">
+                        Usar
+                    </button>
+                </div>
+            </div>
+            
+            <div class="waiter-call">
+                <div>
+                    <h4><i class="fas fa-concierge-bell"></i> Atendimento</h4>
+                    <p>Precisa de ajuda? Chame nosso garçom!</p>
+                </div>
+                <button id="callWaiterBtn">
+                    <i class="fas fa-bell"></i> Chamar Garçom
+                </button>
+            </div>
+        </aside>
+        
+        <!-- Main Content Area -->
+        <main class="content-area">
+            <div class="section-title">
+                <h2><i class="fas fa-utensils"></i> Cardápio Digital</h2>
+                <div>
+                    <button class="add-to-cart" style="background-color: var(--accent-color);" id="openReportsBtn">
+                        <i class="fas fa-chart-line"></i> Ver Relatórios
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Menu Items -->
+            <div class="menu-items">
+                <!-- Menu Item 1 -->
+                <div class="menu-card">
+                    <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Pizza Margherita">
+                    <div class="menu-card-content">
+                        <h3>Pizza Margherita</h3>
+                        <p>Molho de tomate, muçarela fresca, manjericão e azeite de oliva. Uma combinação clássica italiana.</p>
+                        <div class="menu-card-footer">
+                            <div class="price">R$ 42,90</div>
+                            <button class="add-to-cart" data-item="Pizza Margherita" data-price="42.90">
+                                <i class="fas fa-cart-plus"></i> Adicionar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Menu Item 2 -->
+                <div class="menu-card">
+                    <img src="https://images.unsplash.com/photo-1553979459-d2229ba7433b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Hambúrguer Artesanal">
+                    <div class="menu-card-content">
+                        <h3>Hambúrguer Artesanal</h3>
+                        <p>Pão brioche, hambúrguer 180g, queijo cheddar, bacon, alface, tomate e molho especial.</p>
+                        <div class="menu-card-footer">
+                            <div class="price">R$ 28,50</div>
+                            <button class="add-to-cart" data-item="Hambúrguer Artesanal" data-price="28.50">
+                                <i class="fas fa-cart-plus"></i> Adicionar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Menu Item 3 -->
+                <div class="menu-card">
+                    <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Pizza Calabresa">
+                    <div class="menu-card-content">
+                        <h3>Pizza Calabresa</h3>
+                        <p>Molho de tomate, muçarela, calabresa fatiada, cebola roxa e orégano. Sabor marcante e apimentado.</p>
+                        <div class="menu-card-footer">
+                            <div class="price">R$ 45,90</div>
+                            <button class="add-to-cart" data-item="Pizza Calabresa" data-price="45.90">
+                                <i class="fas fa-cart-plus"></i> Adicionar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Menu Item 4 -->
+                <div class="menu-card">
+                    <img src="https://images.unsplash.com/photo-1572802419224-296b0aeee0d9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Refrigerante">
+                    <div class="menu-card-content">
+                        <h3>Refrigerante 2L</h3>
+                        <p>Refrigerante gelado de 2 litros. Escolha entre Coca-Cola, Guaraná, Fanta ou Sprite.</p>
+                        <div class="menu-card-footer">
+                            <div class="price">R$ 12,00</div>
+                            <button class="add-to-cart" data-item="Refrigerante 2L" data-price="12.00">
+                                <i class="fas fa-cart-plus"></i> Adicionar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Menu Item 5 -->
+                <div class="menu-card">
+                    <img src="https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Sorvete">
+                    <div class="menu-card-content">
+                        <h3>Sorvete Artesanal</h3>
+                        <p>Sorvete cremoso produzido artesanalmente. Sabores: chocolate, baunilha, morango ou doce de leite.</p>
+                        <div class="menu-card-footer">
+                            <div class="price">R$ 18,90</div>
+                            <button class="add-to-cart" data-item="Sorvete Artesanal" data-price="18.90">
+                                <i class="fas fa-cart-plus"></i> Adicionar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Menu Item 6 -->
+                <div class="menu-card">
+                    <img src="https://images.unsplash.com/photo-1593246049226-ded77bf90326?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Batata Frita">
+                    <div class="menu-card-content">
+                        <h3>Batata Frita com Cheddar</h3>
+                        <p>Porção generosa de batata frita crocante coberta com molho de cheddar e bacon.</p>
+                        <div class="menu-card-footer">
+                            <div class="price">R$ 22,50</div>
+                            <button class="add-to-cart" data-item="Batata Frita com Cheddar" data-price="22.50">
+                                <i class="fas fa-cart-plus"></i> Adicionar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Reports Section (Hidden by default) -->
+            <div class="tab-container" id="reportsSection" style="display: none;">
+                <div class="tab-header">
+                    <button class="tab-btn active" data-tab="sales">
+                        <i class="fas fa-chart-line"></i> Vendas
+                    </button>
+                    <button class="tab-btn" data-tab="products">
+                        <i class="fas fa-utensils"></i> Produtos
+                    </button>
+                    <button class="tab-btn" data-tab="customers">
+                        <i class="fas fa-users"></i> Clientes
+                    </button>
+                </div>
+                
+                <div class="tab-content active" id="sales-tab">
+                    <h3>Relatório de Vendas</h3>
+                    <p>Análise completa do desempenho de vendas do estabelecimento.</p>
+                    
+                    <div class="reports-grid">
+                        <div class="report-card">
+                            <h4><i class="fas fa-money-bill-wave"></i> Faturamento Hoje</h4>
+                            <div class="report-value">R$ 2.845,60</div>
+                            <div class="report-trend">
+                                <i class="fas fa-arrow-up"></i> 12% em relação a ontem
+                            </div>
+                        </div>
+                        
+                        <div class="report-card">
+                            <h4><i class="fas fa-shopping-cart"></i> Pedidos Hoje</h4>
+                            <div class="report-value">47</div>
+                            <div class="report-trend">
+                                <i class="fas fa-arrow-up"></i> 8% em relação a ontem
+                            </div>
+                        </div>
+                        
+                        <div class="report-card">
+                            <h4><i class="fas fa-ticket-alt"></i> Ticket Médio</h4>
+                            <div class="report-value">R$ 60,55</div>
+                            <div class="report-trend down">
+                                <i class="fas fa-arrow-down"></i> 3% em relação a ontem
+                            </div>
+                        </div>
+                        
+                        <div class="report-card">
+                            <h4><i class="fas fa-coins"></i> Cashback Distribuído</h4>
+                            <div class="report-value">R$ 320,80</div>
+                            <div class="report-trend">
+                                <i class="fas fa-arrow-up"></i> 15% este mês
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="products-tab">
+                    <h3>Relatório de Produtos</h3>
+                    <p>Análise dos produtos mais vendidos e desempenho por categoria.</p>
+                    <p>Em desenvolvimento...</p>
+                </div>
+                
+                <div class="tab-content" id="customers-tab">
+                    <h3>Relatório de Clientes</h3>
+                    <p>Análise do comportamento e fidelidade dos clientes.</p>
+                    <p>Em desenvolvimento...</p>
+                </div>
+            </div>
+        </main>
+        
+        <!-- Cart Sidebar -->
+        <aside class="cart-sidebar">
+            <div class="cart-header">
+                <h3><i class="fas fa-shopping-cart"></i> Seu Pedido</h3>
+                <span id="cartCount">0 itens</span>
+            </div>
+            
+            <div class="cart-items" id="cartItems">
+                <!-- Cart items will be added here dynamically -->
+                <p style="text-align: center; color: var(--gray-color); padding: 20px;">Seu carrinho está vazio</p>
+            </div>
+            
+            <div class="cart-summary">
+                <div class="summary-row">
+                    <span>Subtotal:</span>
+                    <span id="subtotal">R$ 0,00</span>
+                </div>
+                <div class="summary-row">
+                    <span>Taxa de entrega:</span>
+                    <span id="deliveryFee">R$ 5,00</span>
+                </div>
+                <div class="summary-row">
+                    <span>Desconto (cashback):</span>
+                    <span id="discount">R$ 0,00</span>
+                </div>
+                <div class="summary-row summary-total">
+                    <span>Total:</span>
+                    <span id="total">R$ 5,00</span>
+                </div>
+            </div>
+            
+            <button class="checkout-btn" id="checkoutBtn">
+                <i class="fas fa-credit-card"></i> Finalizar Pedido
+            </button>
+            
+            <div style="margin-top: 20px; text-align: center;">
+                <button class="add-to-cart" style="background-color: var(--accent-color); width: 100%;" id="openCashRegisterBtn">
+                    <i class="fas fa-cash-register"></i> Abrir Caixa
+                </button>
+            </div>
+        </aside>
+    </div>
+    
+    <!-- Modals -->
+    
+    <!-- Call Waiter Modal -->
+    <div class="modal" id="callWaiterModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-concierge-bell"></i> Chamar Garçom</h3>
+                <button class="close-modal" id="closeWaiterModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Selecione o motivo do chamado:</p>
+                <div class="form-group">
+                    <select class="form-control" id="callReason">
+                        <option value="cardapio">Dúvida sobre o cardápio</option>
+                        <option value="pedido">Acompanhar pedido</option>
+                        <option value="pagamento">Dúvida sobre pagamento</option>
+                        <option value="outro">Outro motivo</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="callMessage">Mensagem adicional (opcional):</label>
+                    <textarea class="form-control" id="callMessage" rows="3" placeholder="Descreva sua necessidade..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" id="cancelCallBtn">Cancelar</button>
+                <button class="btn btn-primary" id="confirmCallBtn">Enviar Chamado</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Checkout Modal -->
+    <div class="modal" id="checkoutModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-credit-card"></i> Finalizar Pedido</h3>
+                <button class="close-modal" id="closeCheckoutModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Selecione a forma de pagamento:</p>
+                <div class="form-group">
+                    <select class="form-control" id="paymentMethod">
+                        <option value="credit">Cartão de Crédito</option>
+                        <option value="debit">Cartão de Débito</option>
+                        <option value="cash">Dinheiro</option>
+                        <option value="pix">PIX</option>
+                        <option value="cashback">Usar Cashback</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="deliveryAddress">Endereço de entrega:</label>
+                    <input type="text" class="form-control" id="deliveryAddress" value="Rua das Flores, 123 - Centro">
+                </div>
+                <div class="form-group">
+                    <label for="orderNotes">Observações do pedido:</label>
+                    <textarea class="form-control" id="orderNotes" rows="3" placeholder="Alguma observação especial para o pedido?"></textarea>
+                </div>
+                <div class="summary-row summary-total" style="border: none; padding: 0;">
+                    <span>Total a pagar:</span>
+                    <span id="modalTotal">R$ 0,00</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" id="cancelCheckoutBtn">Cancelar</button>
+                <button class="btn btn-primary" id="confirmCheckoutBtn">Confirmar Pedido</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Cash Register Modal -->
+    <div class="modal" id="cashRegisterModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-cash-register"></i> Caixa do Dia</h3>
+                <button class="close-modal" id="closeCashRegisterModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="reports-grid">
+                    <div class="report-card">
+                        <h4><i class="fas fa-money-bill-wave"></i> Valor em Caixa</h4>
+                        <div class="report-value">R$ 1.250,00</div>
+                        <div class="report-trend">
+                            <i class="fas fa-info-circle"></i> Saldo inicial: R$ 200,00
+                        </div>
+                    </div>
+                    
+                    <div class="report-card">
+                        <h4><i class="fas fa-shopping-cart"></i> Pedidos do Dia</h4>
+                        <div class="report-value">24</div>
+                        <div class="report-trend">
+                            <i class="fas fa-arrow-up"></i> 4 em andamento
+                        </div>
+                    </div>
+                    
+                    <div class="report-card">
+                        <h4><i class="fas fa-credit-card"></i> Pagamentos</h4>
+                        <div class="report-value">28</div>
+                        <div class="report-trend">
+                            <i class="fas fa-info-circle"></i> 12 cartão, 10 PIX, 6 dinheiro
+                        </div>
+                    </div>
+                    
+                    <div class="report-card">
+                        <h4><i class="fas fa-coins"></i> Cashback Gerado</h4>
+                        <div class="report-value">R$ 85,30</div>
+                        <div class="report-trend">
+                            <i class="fas fa-arrow-up"></i> 15% este mês
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group" style="margin-top: 20px;">
+                    <label for="cashoutAmount">Retirada de Caixa:</label>
+                    <input type="number" class="form-control" id="cashoutAmount" placeholder="Valor para retirar">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" id="closeCashBtn">Fechar</button>
+                <button class="btn btn-primary" id="cashoutBtn">Realizar Retirada</button>
+                <button class="btn" style="background-color: var(--accent-color); color: white;" id="closeDayBtn">Fechar Dia</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-info">
+                <div class="footer-section">
+                    <h4><i class="fas fa-info-circle"></i> Sobre Nós</h4>
+                    <p>DeliveryExpress é uma plataforma completa de delivery, oferecendo cardápio digital, sistema de fidelidade, cashback e relatórios detalhados.</p>
+                </div>
+                <div class="footer-section">
+                    <h4><i class="fas fa-phone"></i> Contato</h4>
+                    <p><i class="fas fa-map-marker-alt"></i> Rua das Flores, 123 - Centro</p>
+                    <p><i class="fas fa-phone"></i> (11) 99999-9999</p>
+                    <p><i class="fas fa-envelope"></i> contato@deliveryexpress.com</p>
+                </div>
+                <div class="footer-section">
+                    <h4><i class="fas fa-clock"></i> Horário de Funcionamento</h4>
+                    <p>Segunda a Sexta: 10h às 23h</p>
+                    <p>Sábado e Domingo: 11h às 00h</p>
+                    <p>Feriados: 11h às 22h</p>
+                </div>
+            </div>
+            <p>&copy; 2023 DeliveryExpress. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Cart data
+        let cart = [];
+        let cashbackBalance = 15.50;
+        
+        // DOM elements
+        const cartItemsEl = document.getElementById('cartItems');
+        const cartCountEl = document.getElementById('cartCount');
+        const subtotalEl = document.getElementById('subtotal');
+        const discountEl = document.getElementById('discount');
+        const totalEl = document.getElementById('total');
+        const modalTotalEl = document.getElementById('modalTotal');
+        
+        // Modals
+        const callWaiterModal = document.getElementById('callWaiterModal');
+        const checkoutModal = document.getElementById('checkoutModal');
+        const cashRegisterModal = document.getElementById('cashRegisterModal');
+        
+        // Buttons
+        const callWaiterBtn = document.getElementById('callWaiterBtn');
+        const openReportsBtn = document.getElementById('openReportsBtn');
+        const openCashRegisterBtn = document.getElementById('openCashRegisterBtn');
+        const checkoutBtn = document.getElementById('checkoutBtn');
+        
+        // Close modal buttons
+        const closeWaiterModalBtn = document.getElementById('closeWaiterModal');
+        const closeCheckoutModalBtn = document.getElementById('closeCheckoutModal');
+        const closeCashRegisterModalBtn = document.getElementById('closeCashRegisterModal');
+        
+        // Cancel buttons
+        const cancelCallBtn = document.getElementById('cancelCallBtn');
+        const cancelCheckoutBtn = document.getElementById('cancelCheckoutBtn');
+        const closeCashBtn = document.getElementById('closeCashBtn');
+        
+        // Confirm buttons
+        const confirmCallBtn = document.getElementById('confirmCallBtn');
+        const confirmCheckoutBtn = document.getElementById('confirmCheckoutBtn');
+        const cashoutBtn = document.getElementById('cashoutBtn');
+        const closeDayBtn = document.getElementById('closeDayBtn');
+        
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add event listeners to "Add to cart" buttons
+            document.querySelectorAll('.add-to-cart[data-item]').forEach(button => {
+                button.addEventListener('click', function() {
+                    const itemName = this.getAttribute('data-item');
+                    const itemPrice = parseFloat(this.getAttribute('data-price'));
+                    addToCart(itemName, itemPrice);
+                });
+            });
+            
+            // Tab functionality
+            document.querySelectorAll('.tab-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    // Update active tab button
+                    document.querySelectorAll('.tab-btn').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    
+                    // Update active tab content
+                    document.querySelectorAll('.tab-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    document.getElementById(`${tabId}-tab`).classList.add('active');
+                });
+            });
+            
+            // Initialize modals
+            initModals();
+            
+            // Update cart display
+            updateCartDisplay();
+        });
+        
+        // Add item to cart
+        function addToCart(itemName, itemPrice) {
+            // Check if item already exists in cart
+            const existingItemIndex = cart.findIndex(item => item.name === itemName);
+            
+            if (existingItemIndex !== -1) {
+                // Increase quantity if item already in cart
+                cart[existingItemIndex].quantity += 1;
+            } else {
+                // Add new item to cart
+                cart.push({
+                    name: itemName,
+                    price: itemPrice,
+                    quantity: 1
+                });
+            }
+            
+            // Update cart display
+            updateCartDisplay();
+            
+            // Show notification
+            showNotification(`${itemName} adicionado ao carrinho!`);
+        }
+        
+        // Remove item from cart
+        function removeFromCart(itemName) {
+            const itemIndex = cart.findIndex(item => item.name === itemName);
+            
+            if (itemIndex !== -1) {
+                if (cart[itemIndex].quantity > 1) {
+                    cart[itemIndex].quantity -= 1;
+                } else {
+                    cart.splice(itemIndex, 1);
+                }
+            }
+            
+            updateCartDisplay();
+        }
+        
+        // Update cart display
+        function updateCartDisplay() {
+            // Clear current cart items
+            cartItemsEl.innerHTML = '';
+            
+            if (cart.length === 0) {
+                cartItemsEl.innerHTML = '<p style="text-align: center; color: var(--gray-color); padding: 20px;">Seu carrinho está vazio</p>';
+                cartCountEl.textContent = '0 itens';
+                subtotalEl.textContent = 'R$ 0,00';
+                discountEl.textContent = 'R$ 0,00';
+                totalEl.textContent = 'R$ 5,00';
+                modalTotalEl.textContent = 'R$ 5,00';
+                return;
+            }
+            
+            // Calculate totals
+            let subtotal = 0;
+            let itemCount = 0;
+            
+            // Add each item to cart display
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                subtotal += itemTotal;
+                itemCount += item.quantity;
+                
+                const cartItemEl = document.createElement('div');
+                cartItemEl.className = 'cart-item';
+                cartItemEl.innerHTML = `
+                    <div class="cart-item-info">
+                        <h4>${item.name}</h4>
+                        <div class="cart-item-price">R$ ${item.price.toFixed(2)}</div>
+                    </div>
+                    <div class="cart-item-controls">
+                        <button class="remove-item" data-item="${item.name}">-</button>
+                        <span class="cart-item-quantity">${item.quantity}</span>
+                        <button class="add-item" data-item="${item.name}" data-price="${item.price}">+</button>
+                    </div>
+                `;
+                
+                cartItemsEl.appendChild(cartItemEl);
+            });
+            
+            // Add event listeners to cart item buttons
+            document.querySelectorAll('.remove-item').forEach(button => {
+                button.addEventListener('click', function() {
+                    const itemName = this.getAttribute('data-item');
+                    removeFromCart(itemName);
+                });
+            });
+            
+            document.querySelectorAll('.add-item').forEach(button => {
+                button.addEventListener('click', function() {
+                    const itemName = this.getAttribute('data-item');
+                    const itemPrice = parseFloat(this.getAttribute('data-price'));
+                    addToCart(itemName, itemPrice);
+                });
+            });
+            
+            // Calculate total with delivery fee
+            const deliveryFee = 5.00;
+            const discount = 0; // In a real app, this would be calculated based on cashback usage
+            const total = subtotal + deliveryFee - discount;
+            
+            // Update display
+            cartCountEl.textContent = `${itemCount} ${itemCount === 1 ? 'item' : 'itens'}`;
+            subtotalEl.textContent = `R$ ${subtotal.toFixed(2)}`;
+            discountEl.textContent = `R$ ${discount.toFixed(2)}`;
+            totalEl.textContent = `R$ ${total.toFixed(2)}`;
+            modalTotalEl.textContent = `R$ ${total.toFixed(2)}`;
+        }
+        
+        // Show notification
+        function showNotification(message) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background-color: var(--success-color);
+                color: white;
+                padding: 15px 20px;
+                border-radius: var(--border-radius);
+                box-shadow: var(--box-shadow);
+                z-index: 3000;
+                font-weight: 500;
+                display: flex;
+                align-items: center;
+                max-width: 350px;
+            `;
+            
+            notification.innerHTML = `
+                <i class="fas fa-check-circle" style="margin-right: 10px;"></i>
+                ${message}
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Remove notification after 3 seconds
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transition = 'opacity 0.5s';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 500);
+            }, 3000);
+        }
+        
+        // Initialize modals and event listeners
+        function initModals() {
+            // Call Waiter Modal
+            callWaiterBtn.addEventListener('click', () => {
+                callWaiterModal.classList.add('active');
+            });
+            
+            closeWaiterModalBtn.addEventListener('click', () => {
+                callWaiterModal.classList.remove('active');
+            });
+            
+            cancelCallBtn.addEventListener('click', () => {
+                callWaiterModal.classList.remove('active');
+            });
+            
+            confirmCallBtn.addEventListener('click', () => {
+                const reason = document.getElementById('callReason').value;
+                const message = document.getElementById('callMessage').value;
+                
+                // In a real app, this would send a request to the server
+                showNotification('Chamado enviado ao garçom! Ele chegará em breve.');
+                callWaiterModal.classList.remove('active');
+                
+                // Reset form
+                document.getElementById('callReason').value = 'cardapio';
+                document.getElementById('callMessage').value = '';
+            });
+            
+            // Checkout Modal
+            checkoutBtn.addEventListener('click', () => {
+                if (cart.length === 0) {
+                    showNotification('Adicione itens ao carrinho antes de finalizar o pedido.');
+                    return;
+                }
+                
+                checkoutModal.classList.add('active');
+            });
+            
+            closeCheckoutModalBtn.addEventListener('click', () => {
+                checkoutModal.classList.remove('active');
+            });
+            
+            cancelCheckoutBtn.addEventListener('click', () => {
+                checkoutModal.classList.remove('active');
+            });
+            
+            confirmCheckoutBtn.addEventListener('click', () => {
+                const paymentMethod = document.getElementById('paymentMethod').value;
+                const address = document.getElementById('deliveryAddress').value;
+                const notes = document.getElementById('orderNotes').value;
+                
+                // Calculate cashback earned (5% of total)
+                const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                const total = subtotal + 5.00; // Delivery fee
+                const cashbackEarned = total * 0.05;
+                
+                // In a real app, this would send the order to the server
+                showNotification(`Pedido confirmado! Você ganhou R$ ${cashbackEarned.toFixed(2)} de cashback.`);
+                checkoutModal.classList.remove('active');
+                
+                // Clear cart
+                cart = [];
+                updateCartDisplay();
+                
+                // Reset form
+                document.getElementById('paymentMethod').value = 'credit';
+                document.getElementById('orderNotes').value = '';
+            });
+            
+            // Cash Register Modal
+            openCashRegisterBtn.addEventListener('click', () => {
+                cashRegisterModal.classList.add('active');
+            });
+            
+            closeCashRegisterModalBtn.addEventListener('click', () => {
+                cashRegisterModal.classList.remove('active');
+            });
+            
+            closeCashBtn.addEventListener('click', () => {
+                cashRegisterModal.classList.remove('active');
+            });
+            
+            cashoutBtn.addEventListener('click', () => {
+                const amount = document.getElementById('cashoutAmount').value;
+                
+                if (!amount || parseFloat(amount) <= 0) {
+                    showNotification('Informe um valor válido para retirada.');
+                    return;
+                }
+                
+                showNotification(`Retirada de R$ ${parseFloat(amount).toFixed(2)} realizada com sucesso.`);
+                document.getElementById('cashoutAmount').value = '';
+            });
+            
+            closeDayBtn.addEventListener('click', () => {
+                showNotification('Caixa fechado com sucesso. Relatório gerado.');
+                cashRegisterModal.classList.remove('active');
+            });
+            
+            // Open Reports Section
+            openReportsBtn.addEventListener('click', () => {
+                const reportsSection = document.getElementById('reportsSection');
+                const menuItems = document.querySelector('.menu-items');
+                const sectionTitle = document.querySelector('.section-title h2');
+                
+                if (reportsSection.style.display === 'none') {
+                    reportsSection.style.display = 'block';
+                    menuItems.style.display = 'none';
+                    sectionTitle.innerHTML = '<i class="fas fa-chart-line"></i> Relatórios';
+                    openReportsBtn.innerHTML = '<i class="fas fa-utensils"></i> Ver Cardápio';
+                } else {
+                    reportsSection.style.display = 'none';
+                    menuItems.style.display = 'grid';
+                    sectionTitle.innerHTML = '<i class="fas fa-utensils"></i> Cardápio Digital';
+                    openReportsBtn.innerHTML = '<i class="fas fa-chart-line"></i> Ver Relatórios';
+                }
+            });
+            
+            // Close modals when clicking outside
+            window.addEventListener('click', (event) => {
+                if (event.target === callWaiterModal) {
+                    callWaiterModal.classList.remove('active');
+                }
+                
+                if (event.target === checkoutModal) {
+                    checkoutModal.classList.remove('active');
+                }
+                
+                if (event.target === cashRegisterModal) {
+                    cashRegisterModal.classList.remove('active');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
