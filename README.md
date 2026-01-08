@@ -1,706 +1,1506 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Travessia do Rio - Desafio Lógico</title>
+    <title>DeliveryExpress - Plataforma Completa de Delivery</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --primary-color: #ff6b35;
+            --secondary-color: #1a1a2e;
+            --accent-color: #00a8cc;
+            --success-color: #4caf50;
+            --warning-color: #ff9800;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --gray-color: #6c757d;
+            --border-radius: 10px;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
+        
         body {
-            background: linear-gradient(135deg, #1a2980, #26d0ce);
-            color: white;
-            min-height: 100vh;
-            padding: 20px;
+            background-color: #f5f7fa;
+            color: var(--dark-color);
+            line-height: 1.6;
         }
-
+        
         .container {
-            max-width: 1200px;
+            width: 100%;
+            max-width: 1400px;
             margin: 0 auto;
+            padding: 0 20px;
         }
-
+        
         header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
-
-        h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            color: #ffeb3b;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-
-        .game-area {
+        
+        .header-container {
             display: flex;
             justify-content: space-between;
-            align-items: stretch;
-            gap: 20px;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .logo i {
+            color: var(--primary-color);
+            margin-right: 10px;
+        }
+        
+        .logo span {
+            color: var(--primary-color);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 25px;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+        }
+        
+        nav ul li a:hover {
+            color: var(--primary-color);
+        }
+        
+        nav ul li a i {
+            margin-right: 8px;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 8px 15px;
+            border-radius: 30px;
+        }
+        
+        .user-info i {
+            margin-right: 8px;
+            color: var(--primary-color);
+        }
+        
+        .user-balance {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-left: 10px;
+        }
+        
+        .main-content {
+            display: flex;
+            min-height: calc(100vh - 140px);
+        }
+        
+        .sidebar {
+            width: 250px;
+            background-color: white;
+            padding: 25px 15px;
+            border-right: 1px solid #eaeaea;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .menu-categories {
             margin-bottom: 30px;
         }
-
-        .river {
-            flex: 1;
-            background: linear-gradient(to bottom, #1e90ff, #00bfff);
-            border-radius: 10px;
-            position: relative;
-            min-height: 400px;
+        
+        .menu-categories h3 {
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-color);
+        }
+        
+        .category-list {
+            list-style: none;
+        }
+        
+        .category-list li {
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: all 0.3s;
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.3);
         }
-
-        .river:before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 4px;
-            height: 100%;
-            background: repeating-linear-gradient(
-                to bottom,
-                transparent,
-                transparent 10px,
-                white 10px,
-                white 20px
-            );
+        
+        .category-list li:hover, .category-list li.active {
+            background-color: rgba(255, 107, 53, 0.1);
+            color: var(--primary-color);
+            font-weight: 500;
         }
-
-        .bank {
-            width: 45%;
-            min-height: 400px;
-            background: linear-gradient(to bottom, #8b4513, #654321);
-            border-radius: 15px;
+        
+        .category-list li .item-count {
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 0.8rem;
+            padding: 2px 8px;
+            border-radius: 20px;
+        }
+        
+        .loyalty-section {
+            background: linear-gradient(135deg, var(--secondary-color), #16213e);
+            color: white;
             padding: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
-            position: relative;
+            border-radius: var(--border-radius);
+            margin-bottom: 25px;
+        }
+        
+        .loyalty-section h4 {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .loyalty-section h4 i {
+            margin-right: 10px;
+            color: var(--primary-color);
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            margin: 15px 0;
             overflow: hidden;
         }
-
-        .bank-left {
-            border-right: 5px solid #5d2906;
+        
+        .progress {
+            height: 100%;
+            background-color: var(--primary-color);
+            width: 65%;
+            border-radius: 4px;
         }
-
-        .bank-right {
-            border-left: 5px solid #5d2906;
-        }
-
-        .bank:before {
-            content: "";
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            right: 10px;
-            bottom: 10px;
-            border: 2px dashed rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            pointer-events: none;
-        }
-
-        .bank h3 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #ffcc80;
-            font-size: 1.5em;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-        }
-
-        .people-container {
+        
+        .cashback-info {
             display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            justify-content: center;
-            min-height: 300px;
-        }
-
-        .person {
-            width: 100px;
-            height: 120px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .person:hover {
-            transform: translateY(-5px);
-        }
-
-        .person.selected {
-            animation: pulse 1s infinite;
-            transform: scale(1.1);
-        }
-
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(255, 235, 59, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(255, 235, 59, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(255, 235, 59, 0); }
-        }
-
-        .person-img {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 10px;
-            border-radius: 50%;
-            background: white;
-            display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            font-size: 40px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            margin-top: 15px;
         }
-
-        .person-name {
-            text-align: center;
-            font-weight: bold;
-            font-size: 0.9em;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-            padding: 5px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 5px;
+        
+        .cashback-amount {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
         }
-
-        .controls {
-            background: rgba(0, 0, 0, 0.3);
+        
+        .content-area {
+            flex: 1;
             padding: 25px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            background-color: #f9fafc;
         }
-
-        .boat {
-            background: linear-gradient(to bottom, #8b4513, #a0522d);
-            width: 150px;
-            height: 60px;
-            border-radius: 30px 30px 10px 10px;
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        
+        .section-title {
             display: flex;
-            justify-content: space-around;
+            justify-content: space-between;
             align-items: center;
-            padding: 0 10px;
-            transition: all 1s ease;
+            margin-bottom: 25px;
         }
-
-        .boat-seat {
-            width: 40px;
-            height: 40px;
-            background: rgba(139, 69, 19, 0.8);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
+        
+        .section-title h2 {
+            color: var(--secondary-color);
+            font-size: 1.8rem;
         }
-
-        .controls-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 20px;
+        
+        .section-title i {
+            color: var(--primary-color);
+            margin-right: 10px;
         }
-
-        button {
-            padding: 15px 30px;
-            font-size: 1.1em;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .cross-btn {
-            background: linear-gradient(to right, #4CAF50, #45a049);
-            color: white;
-        }
-
-        .cross-btn:hover:not(:disabled) {
-            background: linear-gradient(to right, #45a049, #3d8b40);
-            transform: scale(1.05);
-        }
-
-        .reset-btn {
-            background: linear-gradient(to right, #f44336, #d32f2f);
-            color: white;
-        }
-
-        .reset-btn:hover {
-            background: linear-gradient(to right, #d32f2f, #b71c1c);
-            transform: scale(1.05);
-        }
-
-        button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none !important;
-        }
-
-        .rules {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 25px;
-            border-radius: 15px;
-            margin-top: 30px;
-        }
-
-        .rules h3 {
-            color: #ffcc80;
-            margin-bottom: 15px;
-            font-size: 1.5em;
-        }
-
-        .rules-list {
+        
+        .menu-items {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
         }
-
-        .rule-item {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 15px;
-            border-radius: 10px;
-            border-left: 4px solid #4CAF50;
+        
+        .menu-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
         }
-
-        .message {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 20px 40px;
-            background: rgba(0, 0, 0, 0.9);
+        
+        .menu-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .menu-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+        
+        .menu-card-content {
+            padding: 20px;
+        }
+        
+        .menu-card h3 {
+            margin-bottom: 10px;
+            color: var(--secondary-color);
+        }
+        
+        .menu-card p {
+            color: var(--gray-color);
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+            height: 60px;
+            overflow: hidden;
+        }
+        
+        .menu-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+        
+        .price {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        .add-to-cart {
+            background-color: var(--primary-color);
             color: white;
-            border-radius: 10px;
-            font-size: 1.2em;
-            z-index: 1000;
-            display: none;
-            animation: slideIn 0.3s ease;
-            border: 2px solid #4CAF50;
-        }
-
-        @keyframes slideIn {
-            from { top: -100px; opacity: 0; }
-            to { top: 20px; opacity: 1; }
-        }
-
-        .trip-counter {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.5);
+            border: none;
             padding: 10px 20px;
-            border-radius: 20px;
-            font-size: 1.2em;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+        }
+        
+        .add-to-cart:hover {
+            background-color: #e05a2b;
+        }
+        
+        .add-to-cart i {
+            margin-right: 8px;
+        }
+        
+        .cart-sidebar {
+            width: 350px;
+            background-color: white;
+            padding: 25px;
+            border-left: 1px solid #eaeaea;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .cart-header h3 {
+            color: var(--secondary-color);
+        }
+        
+        .cart-items {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+        
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+        
+        .cart-item-info h4 {
+            margin-bottom: 5px;
+            color: var(--secondary-color);
+        }
+        
+        .cart-item-price {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .cart-item-controls {
+            display: flex;
+            align-items: center;
+        }
+        
+        .cart-item-controls button {
+            background-color: #f0f0f0;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
             font-weight: bold;
         }
-
-        .can-row {
-            position: absolute;
-            top: -25px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #4CAF50;
+        
+        .cart-item-quantity {
+            margin: 0 12px;
+            font-weight: 600;
+        }
+        
+        .cart-summary {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .summary-total {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            border-top: 2px solid #eee;
+            padding-top: 15px;
+            margin-top: 15px;
+        }
+        
+        .checkout-btn {
+            width: 100%;
+            background-color: var(--accent-color);
             color: white;
-            padding: 5px 15px;
-            border-radius: 15px;
-            font-size: 0.8em;
-            white-space: nowrap;
+            border: none;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .checkout-btn:hover {
+            background-color: #0088aa;
+        }
+        
+        .checkout-btn i {
+            margin-right: 10px;
+        }
+        
+        .tab-container {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+        
+        .tab-header {
+            display: flex;
+            background-color: var(--secondary-color);
+        }
+        
+        .tab-btn {
+            flex: 1;
+            padding: 18px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .tab-btn i {
+            margin-right: 10px;
+        }
+        
+        .tab-btn.active {
+            background-color: var(--primary-color);
+        }
+        
+        .tab-content {
+            padding: 30px;
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .waiter-call {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #e8f4fc;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+        }
+        
+        .waiter-call button {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+        
+        .waiter-call button i {
+            margin-right: 10px;
+        }
+        
+        .reports-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .report-card {
+            background-color: white;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+        
+        .report-card h4 {
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+        }
+        
+        .report-card h4 i {
+            margin-right: 10px;
+            color: var(--primary-color);
+        }
+        
+        .report-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .report-trend {
+            display: flex;
+            align-items: center;
+            color: var(--success-color);
+            font-weight: 500;
+        }
+        
+        .report-trend.down {
+            color: #f44336;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background-color: white;
+            width: 90%;
+            max-width: 500px;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .modal-header {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-header h3 {
+            color: white;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        .modal-body {
+            padding: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--secondary-color);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+        }
+        
+        .modal-footer {
+            padding: 20px;
+            background-color: #f9f9f9;
+            display: flex;
+            justify-content: flex-end;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            margin-top: 40px;
+        }
+        
+        .footer-info {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+        
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 20px;
+        }
+        
+        .footer-section h4 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        @media (max-width: 1200px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .sidebar, .cart-sidebar {
+                width: 100%;
+                border: none;
+                margin-bottom: 20px;
+            }
+            
+            .cart-sidebar {
+                order: 3;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                margin-top: 15px;
+            }
+            
+            nav ul li {
+                margin: 5px 15px 5px 0;
+            }
+            
+            .menu-items {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            .tab-header {
+                flex-direction: column;
+            }
+            
+            .reports-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🚣 Travessia do Rio - Desafio Lógico</h1>
-            <p>Ajude todas as 8 pessoas a atravessarem o rio seguindo as regras!</p>
-        </header>
-
-        <div class="trip-counter">Viagens: <span id="tripCount">0</span></div>
-
-        <div class="game-area">
-            <div class="bank bank-left" id="bankLeft">
-                <h3>🌲 Margem Esquerda</h3>
-                <div class="people-container" id="peopleLeft"></div>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <i class="fas fa-utensils"></i>
+                Delivery<span>Express</span>
             </div>
-
-            <div class="river">
-                <div class="boat" id="boat">
-                    <div class="boat-seat" id="seat1"></div>
-                    <div class="boat-seat" id="seat2"></div>
+            <nav>
+                <ul>
+                    <li><a href="#"><i class="fas fa-home"></i> Início</a></li>
+                    <li><a href="#"><i class="fas fa-receipt"></i> Pedidos</a></li>
+                    <li><a href="#"><i class="fas fa-chart-bar"></i> Relatórios</a></li>
+                    <li><a href="#"><i class="fas fa-cog"></i> Configurações</a></li>
+                    <li><a href="#"><i class="fas fa-question-circle"></i> Ajuda</a></li>
+                </ul>
+            </nav>
+            <div class="user-info">
+                <i class="fas fa-user-circle"></i>
+                <span>Olá, João Silva</span>
+                <div class="user-balance">
+                    <i class="fas fa-coins"></i> R$ 15,50
                 </div>
             </div>
-
-            <div class="bank bank-right" id="bankRight">
-                <h3>🏔️ Margem Direita</h3>
-                <div class="people-container" id="peopleRight"></div>
-            </div>
         </div>
-
-        <div class="controls">
-            <div style="text-align: center; margin-bottom: 20px;">
-                <h3>🎮 Controles</h3>
-                <p id="statusMessage">Clique em até 2 pessoas para colocá-las no barco, depois clique em "Atravessar"</p>
+    </header>
+    
+    <!-- Main Content -->
+    <div class="container main-content">
+        <!-- Sidebar with categories and loyalty info -->
+        <aside class="sidebar">
+            <div class="menu-categories">
+                <h3><i class="fas fa-list"></i> Categorias</h3>
+                <ul class="category-list">
+                    <li class="active">Todos os Itens <span class="item-count">24</span></li>
+                    <li>Pizzas <span class="item-count">8</span></li>
+                    <li>Hambúrgueres <span class="item-count">6</span></li>
+                    <li>Bebidas <span class="item-count">5</span></li>
+                    <li>Sobremesas <span class="item-count">5</span></li>
+                    <li>Promoções <span class="item-count">3</span></li>
+                </ul>
             </div>
-            <div class="controls-buttons">
-                <button id="crossBtn" class="cross-btn" disabled>
-                    <span>⛵</span> Atravessar Rio
-                </button>
-                <button id="resetBtn" class="reset-btn">
-                    <span>🔄</span> Reiniciar Jogo
+            
+            <div class="loyalty-section">
+                <h4><i class="fas fa-crown"></i> Seu Programa de Fidelidade</h4>
+                <p>Você tem 320 pontos. Faltam 180 pontos para o próximo nível!</p>
+                <div class="progress-bar">
+                    <div class="progress"></div>
+                </div>
+                <div class="cashback-info">
+                    <div>
+                        <div>Cashback Disponível</div>
+                        <div class="cashback-amount">R$ 15,50</div>
+                    </div>
+                    <button class="add-to-cart" style="background-color: var(--accent-color); padding: 8px 15px;">
+                        Usar
+                    </button>
+                </div>
+            </div>
+            
+            <div class="waiter-call">
+                <div>
+                    <h4><i class="fas fa-concierge-bell"></i> Atendimento</h4>
+                    <p>Precisa de ajuda? Chame nosso garçom!</p>
+                </div>
+                <button id="callWaiterBtn">
+                    <i class="fas fa-bell"></i> Chamar Garçom
                 </button>
             </div>
-        </div>
-
-        <div class="rules">
-            <h3>📜 Regras do Jogo</h3>
-            <div class="rules-list">
-                <div class="rule-item">⛵ A jangada só pode carregar 2 pessoas por vez</div>
-                <div class="rule-item">🚣 Somente Pai, Mãe e Policial sabem remar</div>
-                <div class="rule-item">👦 Filhos não podem ficar com Mãe sem Pai presente</div>
-                <div class="rule-item">👧 Filhas não podem ficar com Pai sem Mãe presente</div>
-                <div class="rule-item">👮 Prisioneira não pode ficar com família sem Policial</div>
+        </aside>
+        
+        <!-- Main Content Area -->
+        <main class="content-area">
+            <div class="section-title">
+                <h2><i class="fas fa-utensils"></i> Cardápio Digital</h2>
+                <div>
+                    <button class="add-to-cart" style="background-color: var(--accent-color);" id="openReportsBtn">
+                        <i class="fas fa-chart-line"></i> Ver Relatórios
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Menu Items -->
+            <div class="menu-items">
+                <!-- Menu Item 1 -->
+                <div class="menu-card">
+                    <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Pizza Margherita">
+                    <div class="menu-card-content">
+                        <h3>Pizza Margherita</h3>
+                        <p>Molho de tomate, muçarela fresca, manjericão e azeite de oliva. Uma combinação clássica italiana.</p>
+                        <div class="menu-card-footer">
+                            <div class="price">R$ 42,90</div>
+                            <button class="add-to-cart" data-item="Pizza Margherita" data-price="42.90">
+                                <i class="fas fa-cart-plus"></i> Adicionar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Menu Item 2 -->
+                <div class="menu-card">
+                    <img src="https://images.unsplash.com/photo-1553979459-d2229ba7433b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Hambúrguer Artesanal">
+                    <div class="menu-card-content">
+                        <h3>Hambúrguer Artesanal</h3>
+                        <p>Pão brioche, hambúrguer 180g, queijo cheddar, bacon, alface, tomate e molho especial.</p>
+                        <div class="menu-card-footer">
+                            <div class="price">R$ 28,50</div>
+                            <button class="add-to-cart" data-item="Hambúrguer Artesanal" data-price="28.50">
+                                <i class="fas fa-cart-plus"></i> Adicionar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Menu Item 3 -->
+                <div class="menu-card">
+                    <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Pizza Calabresa">
+                    <div class="menu-card-content">
+                        <h3>Pizza Calabresa</h3>
+                        <p>Molho de tomate, muçarela, calabresa fatiada, cebola roxa e orégano. Sabor marcante e apimentado.</p>
+                        <div class="menu-card-footer">
+                            <div class="price">R$ 45,90</div>
+                            <button class="add-to-cart" data-item="Pizza Calabresa" data-price="45.90">
+                                <i class="fas fa-cart-plus"></i> Adicionar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Menu Item 4 -->
+                <div class="menu-card">
+                    <img src="https://images.unsplash.com/photo-1572802419224-296b0aeee0d9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Refrigerante">
+                    <div class="menu-card-content">
+                        <h3>Refrigerante 2L</h3>
+                        <p>Refrigerante gelado de 2 litros. Escolha entre Coca-Cola, Guaraná, Fanta ou Sprite.</p>
+                        <div class="menu-card-footer">
+                            <div class="price">R$ 12,00</div>
+                            <button class="add-to-cart" data-item="Refrigerante 2L" data-price="12.00">
+                                <i class="fas fa-cart-plus"></i> Adicionar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Menu Item 5 -->
+                <div class="menu-card">
+                    <img src="https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Sorvete">
+                    <div class="menu-card-content">
+                        <h3>Sorvete Artesanal</h3>
+                        <p>Sorvete cremoso produzido artesanalmente. Sabores: chocolate, baunilha, morango ou doce de leite.</p>
+                        <div class="menu-card-footer">
+                            <div class="price">R$ 18,90</div>
+                            <button class="add-to-cart" data-item="Sorvete Artesanal" data-price="18.90">
+                                <i class="fas fa-cart-plus"></i> Adicionar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Menu Item 6 -->
+                <div class="menu-card">
+                    <img src="https://images.unsplash.com/photo-1593246049226-ded77bf90326?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Batata Frita">
+                    <div class="menu-card-content">
+                        <h3>Batata Frita com Cheddar</h3>
+                        <p>Porção generosa de batata frita crocante coberta com molho de cheddar e bacon.</p>
+                        <div class="menu-card-footer">
+                            <div class="price">R$ 22,50</div>
+                            <button class="add-to-cart" data-item="Batata Frita com Cheddar" data-price="22.50">
+                                <i class="fas fa-cart-plus"></i> Adicionar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Reports Section (Hidden by default) -->
+            <div class="tab-container" id="reportsSection" style="display: none;">
+                <div class="tab-header">
+                    <button class="tab-btn active" data-tab="sales">
+                        <i class="fas fa-chart-line"></i> Vendas
+                    </button>
+                    <button class="tab-btn" data-tab="products">
+                        <i class="fas fa-utensils"></i> Produtos
+                    </button>
+                    <button class="tab-btn" data-tab="customers">
+                        <i class="fas fa-users"></i> Clientes
+                    </button>
+                </div>
+                
+                <div class="tab-content active" id="sales-tab">
+                    <h3>Relatório de Vendas</h3>
+                    <p>Análise completa do desempenho de vendas do estabelecimento.</p>
+                    
+                    <div class="reports-grid">
+                        <div class="report-card">
+                            <h4><i class="fas fa-money-bill-wave"></i> Faturamento Hoje</h4>
+                            <div class="report-value">R$ 2.845,60</div>
+                            <div class="report-trend">
+                                <i class="fas fa-arrow-up"></i> 12% em relação a ontem
+                            </div>
+                        </div>
+                        
+                        <div class="report-card">
+                            <h4><i class="fas fa-shopping-cart"></i> Pedidos Hoje</h4>
+                            <div class="report-value">47</div>
+                            <div class="report-trend">
+                                <i class="fas fa-arrow-up"></i> 8% em relação a ontem
+                            </div>
+                        </div>
+                        
+                        <div class="report-card">
+                            <h4><i class="fas fa-ticket-alt"></i> Ticket Médio</h4>
+                            <div class="report-value">R$ 60,55</div>
+                            <div class="report-trend down">
+                                <i class="fas fa-arrow-down"></i> 3% em relação a ontem
+                            </div>
+                        </div>
+                        
+                        <div class="report-card">
+                            <h4><i class="fas fa-coins"></i> Cashback Distribuído</h4>
+                            <div class="report-value">R$ 320,80</div>
+                            <div class="report-trend">
+                                <i class="fas fa-arrow-up"></i> 15% este mês
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="products-tab">
+                    <h3>Relatório de Produtos</h3>
+                    <p>Análise dos produtos mais vendidos e desempenho por categoria.</p>
+                    <p>Em desenvolvimento...</p>
+                </div>
+                
+                <div class="tab-content" id="customers-tab">
+                    <h3>Relatório de Clientes</h3>
+                    <p>Análise do comportamento e fidelidade dos clientes.</p>
+                    <p>Em desenvolvimento...</p>
+                </div>
+            </div>
+        </main>
+        
+        <!-- Cart Sidebar -->
+        <aside class="cart-sidebar">
+            <div class="cart-header">
+                <h3><i class="fas fa-shopping-cart"></i> Seu Pedido</h3>
+                <span id="cartCount">0 itens</span>
+            </div>
+            
+            <div class="cart-items" id="cartItems">
+                <!-- Cart items will be added here dynamically -->
+                <p style="text-align: center; color: var(--gray-color); padding: 20px;">Seu carrinho está vazio</p>
+            </div>
+            
+            <div class="cart-summary">
+                <div class="summary-row">
+                    <span>Subtotal:</span>
+                    <span id="subtotal">R$ 0,00</span>
+                </div>
+                <div class="summary-row">
+                    <span>Taxa de entrega:</span>
+                    <span id="deliveryFee">R$ 5,00</span>
+                </div>
+                <div class="summary-row">
+                    <span>Desconto (cashback):</span>
+                    <span id="discount">R$ 0,00</span>
+                </div>
+                <div class="summary-row summary-total">
+                    <span>Total:</span>
+                    <span id="total">R$ 5,00</span>
+                </div>
+            </div>
+            
+            <button class="checkout-btn" id="checkoutBtn">
+                <i class="fas fa-credit-card"></i> Finalizar Pedido
+            </button>
+            
+            <div style="margin-top: 20px; text-align: center;">
+                <button class="add-to-cart" style="background-color: var(--accent-color); width: 100%;" id="openCashRegisterBtn">
+                    <i class="fas fa-cash-register"></i> Abrir Caixa
+                </button>
+            </div>
+        </aside>
+    </div>
+    
+    <!-- Modals -->
+    
+    <!-- Call Waiter Modal -->
+    <div class="modal" id="callWaiterModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-concierge-bell"></i> Chamar Garçom</h3>
+                <button class="close-modal" id="closeWaiterModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Selecione o motivo do chamado:</p>
+                <div class="form-group">
+                    <select class="form-control" id="callReason">
+                        <option value="cardapio">Dúvida sobre o cardápio</option>
+                        <option value="pedido">Acompanhar pedido</option>
+                        <option value="pagamento">Dúvida sobre pagamento</option>
+                        <option value="outro">Outro motivo</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="callMessage">Mensagem adicional (opcional):</label>
+                    <textarea class="form-control" id="callMessage" rows="3" placeholder="Descreva sua necessidade..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" id="cancelCallBtn">Cancelar</button>
+                <button class="btn btn-primary" id="confirmCallBtn">Enviar Chamado</button>
             </div>
         </div>
     </div>
-
-    <div class="message" id="message"></div>
-
-    <script>
-        // Personagens do jogo com emojis e cores
-        const people = [
-            { id: 'pai', name: 'Pai', emoji: '👨', color: '#3498db', canRow: true },
-            { id: 'mae', name: 'Mãe', emoji: '👩', color: '#e74c3c', canRow: true },
-            { id: 'filho1', name: 'Filho 1', emoji: '👦', color: '#2ecc71', canRow: false },
-            { id: 'filho2', name: 'Filho 2', emoji: '👦', color: '#27ae60', canRow: false },
-            { id: 'filha1', name: 'Filha 1', emoji: '👧', color: '#9b59b6', canRow: false },
-            { id: 'filha2', name: 'Filha 2', emoji: '👧', color: '#8e44ad', canRow: false },
-            { id: 'policial', name: 'Policial', emoji: '👮', color: '#34495e', canRow: true },
-            { id: 'prisioneira', name: 'Prisioneira', emoji: '👩', color: '#e67e22', canRow: false }
-        ];
-
-        let gameState = {
-            leftBank: [...people.map(p => p.id)],
-            rightBank: [],
-            boat: [],
-            boatPosition: 'left', // 'left' or 'right'
-            selectedPeople: [],
-            tripCount: 0,
-            gameOver: false
-        };
-
-        // Elementos DOM
-        const bankLeftEl = document.getElementById('peopleLeft');
-        const bankRightEl = document.getElementById('peopleRight');
-        const boatEl = document.getElementById('boat');
-        const seat1El = document.getElementById('seat1');
-        const seat2El = document.getElementById('seat2');
-        const crossBtn = document.getElementById('crossBtn');
-        const resetBtn = document.getElementById('resetBtn');
-        const messageEl = document.getElementById('message');
-        const tripCountEl = document.getElementById('tripCount');
-        const statusMessageEl = document.getElementById('statusMessage');
-
-        // Inicializar jogo
-        function initGame() {
-            renderPeople();
-            updateBoatPosition();
-            updateUI();
-        }
-
-        // Renderizar pessoas nas margens
-        function renderPeople() {
-            bankLeftEl.innerHTML = '';
-            bankRightEl.innerHTML = '';
-
-            // Margem esquerda
-            gameState.leftBank.forEach(personId => {
-                const person = people.find(p => p.id === personId);
-                if (person) {
-                    const personEl = createPersonElement(person);
-                    bankLeftEl.appendChild(personEl);
-                }
-            });
-
-            // Margem direita
-            gameState.rightBank.forEach(personId => {
-                const person = people.find(p => p.id === personId);
-                if (person) {
-                    const personEl = createPersonElement(person);
-                    bankRightEl.appendChild(personEl);
-                }
-            });
-        }
-
-        // Criar elemento de pessoa
-        function createPersonElement(person) {
-            const div = document.createElement('div');
-            div.className = 'person';
-            if (gameState.selectedPeople.includes(person.id)) {
-                div.classList.add('selected');
-            }
-            div.dataset.id = person.id;
-
-            const isInBoat = gameState.boat.includes(person.id);
-            if (isInBoat) {
-                div.style.opacity = '0.5';
-                div.style.cursor = 'default';
-            }
-
-            div.innerHTML = `
-                <div class="person-img" style="background: ${person.color}">
-                    ${person.emoji}
+    
+    <!-- Checkout Modal -->
+    <div class="modal" id="checkoutModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-credit-card"></i> Finalizar Pedido</h3>
+                <button class="close-modal" id="closeCheckoutModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Selecione a forma de pagamento:</p>
+                <div class="form-group">
+                    <select class="form-control" id="paymentMethod">
+                        <option value="credit">Cartão de Crédito</option>
+                        <option value="debit">Cartão de Débito</option>
+                        <option value="cash">Dinheiro</option>
+                        <option value="pix">PIX</option>
+                        <option value="cashback">Usar Cashback</option>
+                    </select>
                 </div>
-                <div class="person-name">${person.name}</div>
-                ${person.canRow ? '<div class="can-row">Pode remar</div>' : ''}
-            `;
-
-            if (!isInBoat) {
-                div.onclick = () => selectPerson(person.id);
-            }
-
-            return div;
-        }
-
-        // Selecionar/deselecionar pessoa
-        function selectPerson(personId) {
-            if (gameState.gameOver) return;
-
-            const person = people.find(p => p.id === personId);
-            const currentBank = gameState.boatPosition === 'left' ? gameState.leftBank : gameState.rightBank;
-            
-            // Verificar se a pessoa está na margem atual
-            if (!currentBank.includes(personId)) {
-                showMessage('Esta pessoa não está nesta margem!');
-                return;
-            }
-
-            // Verificar se já está no barco
-            if (gameState.boat.includes(personId)) {
-                showMessage('Esta pessoa já está no barco!');
-                return;
-            }
-
-            // Verificar se pode ser selecionada (máximo 2 no barco)
-            if (gameState.selectedPeople.length >= 2 && !gameState.selectedPeople.includes(personId)) {
-                showMessage('O barco só pode levar 2 pessoas!');
-                return;
-            }
-
-            const index = gameState.selectedPeople.indexOf(personId);
-            if (index > -1) {
-                // Deselecionar
-                gameState.selectedPeople.splice(index, 1);
-            } else {
-                // Selecionar
-                gameState.selectedPeople.push(personId);
-            }
-
-            renderPeople();
-            updateUI();
-        }
-
-        // Atualizar interface
-        function updateUI() {
-            // Atualizar barco
-            seat1El.innerHTML = gameState.boat[0] ? people.find(p => p.id === gameState.boat[0])?.emoji : '';
-            seat2El.innerHTML = gameState.boat[1] ? people.find(p => p.id === gameState.boat[1])?.emoji : '';
-
-            // Atualizar botão atravessar
-            const canCross = gameState.selectedPeople.length > 0 && 
-                            gameState.selectedPeople.length <= 2 &&
-                            hasRower(gameState.selectedPeople);
-            
-            crossBtn.disabled = !canCross;
-            
-            // Atualizar mensagem de status
-            if (gameState.selectedPeople.length === 0) {
-                statusMessageEl.textContent = 'Clique em até 2 pessoas para colocá-las no barco';
-            } else if (!hasRower(gameState.selectedPeople)) {
-                statusMessageEl.textContent = 'O barco precisa de alguém que saiba remar!';
-            } else if (gameState.selectedPeople.length === 1) {
-                statusMessageEl.textContent = 'Pronto para atravessar! Clique em mais uma pessoa ou atravesse assim';
-            } else {
-                statusMessageEl.textContent = 'Pronto para atravessar!';
-            }
-
-            // Atualizar contador
-            tripCountEl.textContent = gameState.tripCount;
-
-            // Verificar vitória
-            checkWin();
-        }
-
-        // Verificar se há remador
-        function hasRower(personIds) {
-            return personIds.some(id => {
-                const person = people.find(p => p.id === id);
-                return person.canRow;
+                <div class="form-group">
+                    <label for="deliveryAddress">Endereço de entrega:</label>
+                    <input type="text" class="form-control" id="deliveryAddress" value="Rua das Flores, 123 - Centro">
+                </div>
+                <div class="form-group">
+                    <label for="orderNotes">Observações do pedido:</label>
+                    <textarea class="form-control" id="orderNotes" rows="3" placeholder="Alguma observação especial para o pedido?"></textarea>
+                </div>
+                <div class="summary-row summary-total" style="border: none; padding: 0;">
+                    <span>Total a pagar:</span>
+                    <span id="modalTotal">R$ 0,00</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" id="cancelCheckoutBtn">Cancelar</button>
+                <button class="btn btn-primary" id="confirmCheckoutBtn">Confirmar Pedido</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Cash Register Modal -->
+    <div class="modal" id="cashRegisterModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-cash-register"></i> Caixa do Dia</h3>
+                <button class="close-modal" id="closeCashRegisterModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="reports-grid">
+                    <div class="report-card">
+                        <h4><i class="fas fa-money-bill-wave"></i> Valor em Caixa</h4>
+                        <div class="report-value">R$ 1.250,00</div>
+                        <div class="report-trend">
+                            <i class="fas fa-info-circle"></i> Saldo inicial: R$ 200,00
+                        </div>
+                    </div>
+                    
+                    <div class="report-card">
+                        <h4><i class="fas fa-shopping-cart"></i> Pedidos do Dia</h4>
+                        <div class="report-value">24</div>
+                        <div class="report-trend">
+                            <i class="fas fa-arrow-up"></i> 4 em andamento
+                        </div>
+                    </div>
+                    
+                    <div class="report-card">
+                        <h4><i class="fas fa-credit-card"></i> Pagamentos</h4>
+                        <div class="report-value">28</div>
+                        <div class="report-trend">
+                            <i class="fas fa-info-circle"></i> 12 cartão, 10 PIX, 6 dinheiro
+                        </div>
+                    </div>
+                    
+                    <div class="report-card">
+                        <h4><i class="fas fa-coins"></i> Cashback Gerado</h4>
+                        <div class="report-value">R$ 85,30</div>
+                        <div class="report-trend">
+                            <i class="fas fa-arrow-up"></i> 15% este mês
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group" style="margin-top: 20px;">
+                    <label for="cashoutAmount">Retirada de Caixa:</label>
+                    <input type="number" class="form-control" id="cashoutAmount" placeholder="Valor para retirar">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" id="closeCashBtn">Fechar</button>
+                <button class="btn btn-primary" id="cashoutBtn">Realizar Retirada</button>
+                <button class="btn" style="background-color: var(--accent-color); color: white;" id="closeDayBtn">Fechar Dia</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-info">
+                <div class="footer-section">
+                    <h4><i class="fas fa-info-circle"></i> Sobre Nós</h4>
+                    <p>DeliveryExpress é uma plataforma completa de delivery, oferecendo cardápio digital, sistema de fidelidade, cashback e relatórios detalhados.</p>
+                </div>
+                <div class="footer-section">
+                    <h4><i class="fas fa-phone"></i> Contato</h4>
+                    <p><i class="fas fa-map-marker-alt"></i> Rua das Flores, 123 - Centro</p>
+                    <p><i class="fas fa-phone"></i> (11) 99999-9999</p>
+                    <p><i class="fas fa-envelope"></i> contato@deliveryexpress.com</p>
+                </div>
+                <div class="footer-section">
+                    <h4><i class="fas fa-clock"></i> Horário de Funcionamento</h4>
+                    <p>Segunda a Sexta: 10h às 23h</p>
+                    <p>Sábado e Domingo: 11h às 00h</p>
+                    <p>Feriados: 11h às 22h</p>
+                </div>
+            </div>
+            <p>&copy; 2023 DeliveryExpress. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Cart data
+        let cart = [];
+        let cashbackBalance = 15.50;
+        
+        // DOM elements
+        const cartItemsEl = document.getElementById('cartItems');
+        const cartCountEl = document.getElementById('cartCount');
+        const subtotalEl = document.getElementById('subtotal');
+        const discountEl = document.getElementById('discount');
+        const totalEl = document.getElementById('total');
+        const modalTotalEl = document.getElementById('modalTotal');
+        
+        // Modals
+        const callWaiterModal = document.getElementById('callWaiterModal');
+        const checkoutModal = document.getElementById('checkoutModal');
+        const cashRegisterModal = document.getElementById('cashRegisterModal');
+        
+        // Buttons
+        const callWaiterBtn = document.getElementById('callWaiterBtn');
+        const openReportsBtn = document.getElementById('openReportsBtn');
+        const openCashRegisterBtn = document.getElementById('openCashRegisterBtn');
+        const checkoutBtn = document.getElementById('checkoutBtn');
+        
+        // Close modal buttons
+        const closeWaiterModalBtn = document.getElementById('closeWaiterModal');
+        const closeCheckoutModalBtn = document.getElementById('closeCheckoutModal');
+        const closeCashRegisterModalBtn = document.getElementById('closeCashRegisterModal');
+        
+        // Cancel buttons
+        const cancelCallBtn = document.getElementById('cancelCallBtn');
+        const cancelCheckoutBtn = document.getElementById('cancelCheckoutBtn');
+        const closeCashBtn = document.getElementById('closeCashBtn');
+        
+        // Confirm buttons
+        const confirmCallBtn = document.getElementById('confirmCallBtn');
+        const confirmCheckoutBtn = document.getElementById('confirmCheckoutBtn');
+        const cashoutBtn = document.getElementById('cashoutBtn');
+        const closeDayBtn = document.getElementById('closeDayBtn');
+        
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add event listeners to "Add to cart" buttons
+            document.querySelectorAll('.add-to-cart[data-item]').forEach(button => {
+                button.addEventListener('click', function() {
+                    const itemName = this.getAttribute('data-item');
+                    const itemPrice = parseFloat(this.getAttribute('data-price'));
+                    addToCart(itemName, itemPrice);
+                });
             });
+            
+            // Tab functionality
+            document.querySelectorAll('.tab-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    // Update active tab button
+                    document.querySelectorAll('.tab-btn').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    
+                    // Update active tab content
+                    document.querySelectorAll('.tab-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    document.getElementById(`${tabId}-tab`).classList.add('active');
+                });
+            });
+            
+            // Initialize modals
+            initModals();
+            
+            // Update cart display
+            updateCartDisplay();
+        });
+        
+        // Add item to cart
+        function addToCart(itemName, itemPrice) {
+            // Check if item already exists in cart
+            const existingItemIndex = cart.findIndex(item => item.name === itemName);
+            
+            if (existingItemIndex !== -1) {
+                // Increase quantity if item already in cart
+                cart[existingItemIndex].quantity += 1;
+            } else {
+                // Add new item to cart
+                cart.push({
+                    name: itemName,
+                    price: itemPrice,
+                    quantity: 1
+                });
+            }
+            
+            // Update cart display
+            updateCartDisplay();
+            
+            // Show notification
+            showNotification(`${itemName} adicionado ao carrinho!`);
         }
-
-        // Atravessar rio
-        function crossRiver() {
-            if (gameState.gameOver || gameState.selectedPeople.length === 0) return;
-
-            // Verificar regras do barco
-            if (!hasRower(gameState.selectedPeople)) {
-                showMessage('❌ O barco precisa de alguém que saiba remar!');
+        
+        // Remove item from cart
+        function removeFromCart(itemName) {
+            const itemIndex = cart.findIndex(item => item.name === itemName);
+            
+            if (itemIndex !== -1) {
+                if (cart[itemIndex].quantity > 1) {
+                    cart[itemIndex].quantity -= 1;
+                } else {
+                    cart.splice(itemIndex, 1);
+                }
+            }
+            
+            updateCartDisplay();
+        }
+        
+        // Update cart display
+        function updateCartDisplay() {
+            // Clear current cart items
+            cartItemsEl.innerHTML = '';
+            
+            if (cart.length === 0) {
+                cartItemsEl.innerHTML = '<p style="text-align: center; color: var(--gray-color); padding: 20px;">Seu carrinho está vazio</p>';
+                cartCountEl.textContent = '0 itens';
+                subtotalEl.textContent = 'R$ 0,00';
+                discountEl.textContent = 'R$ 0,00';
+                totalEl.textContent = 'R$ 5,00';
+                modalTotalEl.textContent = 'R$ 5,00';
                 return;
             }
-
-            // Mover pessoas selecionadas para o barco
-            gameState.boat = [...gameState.selectedPeople];
             
-            // Remover pessoas da margem atual
-            const currentBank = gameState.boatPosition === 'left' ? gameState.leftBank : gameState.rightBank;
-            const newBank = currentBank.filter(id => !gameState.boat.includes(id));
+            // Calculate totals
+            let subtotal = 0;
+            let itemCount = 0;
             
-            if (gameState.boatPosition === 'left') {
-                gameState.leftBank = newBank;
-            } else {
-                gameState.rightBank = newBank;
-            }
-
-            // Atualizar posição do barco
-            gameState.boatPosition = gameState.boatPosition === 'left' ? 'right' : 'left';
-            
-            // Adicionar pessoas à nova margem
-            if (gameState.boatPosition === 'left') {
-                gameState.leftBank.push(...gameState.boat);
-            } else {
-                gameState.rightBank.push(...gameState.boat);
-            }
-
-            // Limpar barco e seleção
-            gameState.boat = [];
-            gameState.selectedPeople = [];
-            
-            // Incrementar contador
-            gameState.tripCount++;
-            
-            // Verificar regras
-            if (!checkRules()) {
-                // Violou regras - voltar estado anterior
-                showMessage('❌ Regra violada! O jogo será reiniciado.');
-                setTimeout(resetGame, 2000);
-                return;
-            }
-
-            // Atualizar UI
-            updateBoatPosition();
-            renderPeople();
-            updateUI();
-            
-            showMessage('✅ Travessia realizada com sucesso!');
-        }
-
-        // Verificar regras
-        function checkRules() {
-            const checkBank = (bank) => {
-                const bankPeople = bank.map(id => people.find(p => p.id === id));
+            // Add each item to cart display
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                subtotal += itemTotal;
+                itemCount += item.quantity;
                 
-                // Verificar filhos com mãe sem pai
-                const hasMother = bankPeople.some(p => p.id === 'mae');
-                const hasFather = bankPeople.some(p => p.id === 'pai');
-                const hasSon = bankPeople.some(p => p.id === 'filho1' || p.id === 'filho2');
+                const cartItemEl = document.createElement('div');
+                cartItemEl.className = 'cart-item';
+                cartItemEl.innerHTML = `
+                    <div class="cart-item-info">
+                        <h4>${item.name}</h4>
+                        <div class="cart-item-price">R$ ${item.price.toFixed(2)}</div>
+                    </div>
+                    <div class="cart-item-controls">
+                        <button class="remove-item" data-item="${item.name}">-</button>
+                        <span class="cart-item-quantity">${item.quantity}</span>
+                        <button class="add-item" data-item="${item.name}" data-price="${item.price}">+</button>
+                    </div>
+                `;
                 
-                if (hasMother && hasSon && !hasFather) {
-                    showMessage('❌ Filhos não podem ficar com mãe sem pai presente!');
-                    return false;
-                }
-
-                // Verificar filhas com pai sem mãe
-                const hasDaughter = bankPeople.some(p => p.id === 'filha1' || p.id === 'filha2');
-                
-                if (hasFather && hasDaughter && !hasMother) {
-                    showMessage('❌ Filhas não podem ficar com pai sem mãe presente!');
-                    return false;
-                }
-
-                // Verificar prisioneira com família sem policial
-                const hasPrisoner = bankPeople.some(p => p.id === 'prisioneira');
-                const hasPolicial = bankPeople.some(p => p.id === 'policial');
-                const hasFamily = bankPeople.some(p => 
-                    p.id === 'pai' || p.id === 'mae' || 
-                    p.id === 'filho1' || p.id === 'filho2' ||
-                    p.id === 'filha1' || p.id === 'filha2'
-                );
-                
-                if (hasPrisoner && hasFamily && !hasPolicial) {
-                    showMessage('❌ Prisioneira não pode ficar com família sem policial!');
-                    return false;
-                }
-
-                return true;
-            };
-
-            return checkBank(gameState.leftBank) && checkBank(gameState.rightBank);
+                cartItemsEl.appendChild(cartItemEl);
+            });
+            
+            // Add event listeners to cart item buttons
+            document.querySelectorAll('.remove-item').forEach(button => {
+                button.addEventListener('click', function() {
+                    const itemName = this.getAttribute('data-item');
+                    removeFromCart(itemName);
+                });
+            });
+            
+            document.querySelectorAll('.add-item').forEach(button => {
+                button.addEventListener('click', function() {
+                    const itemName = this.getAttribute('data-item');
+                    const itemPrice = parseFloat(this.getAttribute('data-price'));
+                    addToCart(itemName, itemPrice);
+                });
+            });
+            
+            // Calculate total with delivery fee
+            const deliveryFee = 5.00;
+            const discount = 0; // In a real app, this would be calculated based on cashback usage
+            const total = subtotal + deliveryFee - discount;
+            
+            // Update display
+            cartCountEl.textContent = `${itemCount} ${itemCount === 1 ? 'item' : 'itens'}`;
+            subtotalEl.textContent = `R$ ${subtotal.toFixed(2)}`;
+            discountEl.textContent = `R$ ${discount.toFixed(2)}`;
+            totalEl.textContent = `R$ ${total.toFixed(2)}`;
+            modalTotalEl.textContent = `R$ ${total.toFixed(2)}`;
         }
-
-        // Atualizar posição visual do barco
-        function updateBoatPosition() {
-            if (gameState.boatPosition === 'left') {
-                boatEl.style.left = '25%';
-            } else {
-                boatEl.style.left = '75%';
-            }
-        }
-
-        // Verificar vitória
-        function checkWin() {
-            if (gameState.rightBank.length === 8 && !gameState.gameOver) {
-                gameState.gameOver = true;
-                showMessage('🎉 Parabéns! Você completou o desafio em ' + gameState.tripCount + ' viagens!');
-                crossBtn.disabled = true;
-            }
-        }
-
-        // Mostrar mensagem
-        function showMessage(text) {
-            messageEl.textContent = text;
-            messageEl.style.display = 'block';
+        
+        // Show notification
+        function showNotification(message) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background-color: var(--success-color);
+                color: white;
+                padding: 15px 20px;
+                border-radius: var(--border-radius);
+                box-shadow: var(--box-shadow);
+                z-index: 3000;
+                font-weight: 500;
+                display: flex;
+                align-items: center;
+                max-width: 350px;
+            `;
+            
+            notification.innerHTML = `
+                <i class="fas fa-check-circle" style="margin-right: 10px;"></i>
+                ${message}
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Remove notification after 3 seconds
             setTimeout(() => {
-                messageEl.style.display = 'none';
+                notification.style.opacity = '0';
+                notification.style.transition = 'opacity 0.5s';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 500);
             }, 3000);
         }
-
-        // Reiniciar jogo
-        function resetGame() {
-            gameState = {
-                leftBank: [...people.map(p => p.id)],
-                rightBank: [],
-                boat: [],
-                boatPosition: 'left',
-                selectedPeople: [],
-                tripCount: 0,
-                gameOver: false
-            };
-            initGame();
-            showMessage('🔄 Jogo reiniciado!');
+        
+        // Initialize modals and event listeners
+        function initModals() {
+            // Call Waiter Modal
+            callWaiterBtn.addEventListener('click', () => {
+                callWaiterModal.classList.add('active');
+            });
+            
+            closeWaiterModalBtn.addEventListener('click', () => {
+                callWaiterModal.classList.remove('active');
+            });
+            
+            cancelCallBtn.addEventListener('click', () => {
+                callWaiterModal.classList.remove('active');
+            });
+            
+            confirmCallBtn.addEventListener('click', () => {
+                const reason = document.getElementById('callReason').value;
+                const message = document.getElementById('callMessage').value;
+                
+                // In a real app, this would send a request to the server
+                showNotification('Chamado enviado ao garçom! Ele chegará em breve.');
+                callWaiterModal.classList.remove('active');
+                
+                // Reset form
+                document.getElementById('callReason').value = 'cardapio';
+                document.getElementById('callMessage').value = '';
+            });
+            
+            // Checkout Modal
+            checkoutBtn.addEventListener('click', () => {
+                if (cart.length === 0) {
+                    showNotification('Adicione itens ao carrinho antes de finalizar o pedido.');
+                    return;
+                }
+                
+                checkoutModal.classList.add('active');
+            });
+            
+            closeCheckoutModalBtn.addEventListener('click', () => {
+                checkoutModal.classList.remove('active');
+            });
+            
+            cancelCheckoutBtn.addEventListener('click', () => {
+                checkoutModal.classList.remove('active');
+            });
+            
+            confirmCheckoutBtn.addEventListener('click', () => {
+                const paymentMethod = document.getElementById('paymentMethod').value;
+                const address = document.getElementById('deliveryAddress').value;
+                const notes = document.getElementById('orderNotes').value;
+                
+                // Calculate cashback earned (5% of total)
+                const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                const total = subtotal + 5.00; // Delivery fee
+                const cashbackEarned = total * 0.05;
+                
+                // In a real app, this would send the order to the server
+                showNotification(`Pedido confirmado! Você ganhou R$ ${cashbackEarned.toFixed(2)} de cashback.`);
+                checkoutModal.classList.remove('active');
+                
+                // Clear cart
+                cart = [];
+                updateCartDisplay();
+                
+                // Reset form
+                document.getElementById('paymentMethod').value = 'credit';
+                document.getElementById('orderNotes').value = '';
+            });
+            
+            // Cash Register Modal
+            openCashRegisterBtn.addEventListener('click', () => {
+                cashRegisterModal.classList.add('active');
+            });
+            
+            closeCashRegisterModalBtn.addEventListener('click', () => {
+                cashRegisterModal.classList.remove('active');
+            });
+            
+            closeCashBtn.addEventListener('click', () => {
+                cashRegisterModal.classList.remove('active');
+            });
+            
+            cashoutBtn.addEventListener('click', () => {
+                const amount = document.getElementById('cashoutAmount').value;
+                
+                if (!amount || parseFloat(amount) <= 0) {
+                    showNotification('Informe um valor válido para retirada.');
+                    return;
+                }
+                
+                showNotification(`Retirada de R$ ${parseFloat(amount).toFixed(2)} realizada com sucesso.`);
+                document.getElementById('cashoutAmount').value = '';
+            });
+            
+            closeDayBtn.addEventListener('click', () => {
+                showNotification('Caixa fechado com sucesso. Relatório gerado.');
+                cashRegisterModal.classList.remove('active');
+            });
+            
+            // Open Reports Section
+            openReportsBtn.addEventListener('click', () => {
+                const reportsSection = document.getElementById('reportsSection');
+                const menuItems = document.querySelector('.menu-items');
+                const sectionTitle = document.querySelector('.section-title h2');
+                
+                if (reportsSection.style.display === 'none') {
+                    reportsSection.style.display = 'block';
+                    menuItems.style.display = 'none';
+                    sectionTitle.innerHTML = '<i class="fas fa-chart-line"></i> Relatórios';
+                    openReportsBtn.innerHTML = '<i class="fas fa-utensils"></i> Ver Cardápio';
+                } else {
+                    reportsSection.style.display = 'none';
+                    menuItems.style.display = 'grid';
+                    sectionTitle.innerHTML = '<i class="fas fa-utensils"></i> Cardápio Digital';
+                    openReportsBtn.innerHTML = '<i class="fas fa-chart-line"></i> Ver Relatórios';
+                }
+            });
+            
+            // Close modals when clicking outside
+            window.addEventListener('click', (event) => {
+                if (event.target === callWaiterModal) {
+                    callWaiterModal.classList.remove('active');
+                }
+                
+                if (event.target === checkoutModal) {
+                    checkoutModal.classList.remove('active');
+                }
+                
+                if (event.target === cashRegisterModal) {
+                    cashRegisterModal.classList.remove('active');
+                }
+            });
         }
-
-        // Event listeners
-        crossBtn.onclick = crossRiver;
-        resetBtn.onclick = resetGame;
-
-        // Inicializar
-        initGame();
     </script>
 </body>
 </html>
